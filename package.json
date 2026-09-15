@@ -1,0 +1,13 @@
+{
+  "name": "ical-json-bridge",
+  "version": "0.1.0",
+  "description": "Convert between iCalendar (.ics) text and a plain JSON event format.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "license": "MIT",
+  "author": "stray-basin24",
+  "private": true
+}
