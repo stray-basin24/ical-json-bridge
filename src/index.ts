@@ -143,6 +143,7 @@ export function parseIcs(ics: string): CalendarEvent[] {
           allDay: current.allDay ?? false,
           description: current.description,
           location: current.location,
+          tzid: current.tzid,
         });
       }
       current = null;
@@ -167,9 +168,11 @@ export function parseIcs(ics: string): CalendarEvent[] {
       case 'DTSTART':
         current.start = icsDateTimeToIso(value);
         current.allDay = params.VALUE === 'DATE';
+        if (params.TZID) current.tzid = params.TZID;
         break;
       case 'DTEND':
         current.end = icsDateTimeToIso(value);
+        if (params.TZID) current.tzid = params.TZID;
         break;
       default:
         break;
@@ -183,7 +186,7 @@ export function toIcs(events: CalendarEvent[]): string {
   const lines: string[] = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//ical-json-bridge//EN'];
 
   for (const event of events) {
-    const dateParams = event.allDay ? ';VALUE=DATE' : '';
+    const dateParams = event.allDay ? ';VALUE=DATE' : event.tzid ? `;TZID=${event.tzid}` : '';
     lines.push('BEGIN:VEVENT');
     lines.push(foldLine(`UID:${event.uid}`));
     lines.push(foldLine(`SUMMARY:${escapeText(event.summary)}`));

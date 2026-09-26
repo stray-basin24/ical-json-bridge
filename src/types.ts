@@ -7,4 +7,6 @@ export interface CalendarEvent {
   allDay: boolean;
   description?: string;
   location?: string;
+  /** IANA zone name from a DTSTART/DTEND TZID param, e.g. "America/New_York". When set, start/end are wall-clock time in that zone, not UTC — there's no VTIMEZONE/offset table here to convert them. */
+  tzid?: string;
 }

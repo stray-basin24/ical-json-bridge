@@ -21,6 +21,7 @@ interface CalendarEvent {
   allDay: boolean;
   description?: string;
   location?: string;
+  tzid?: string; // set when DTSTART/DTEND carried a TZID param instead of UTC or floating time
 }
 ```
 
@@ -66,11 +67,14 @@ an `.ics` file.
 - `VEVENT` blocks with `UID`, `SUMMARY`, `DTSTART`, `DTEND`, `DESCRIPTION`,
   `LOCATION`.
 - UTC (`...Z`) and floating date-times, plus all-day (`VALUE=DATE`) events.
+- `TZID=...` on `DTSTART`/`DTEND`: the offset isn't resolved (there's no
+  `VTIMEZONE`/tzdata table here), so `start`/`end` come back as floating
+  wall-clock ISO strings and the zone name lands in `tzid`. Round-tripping
+  through `toIcs` reproduces the same `TZID` param.
 - Line folding/unfolding and text escaping per RFC 5545.
 
 ## What's not handled yet
 
-- Timezone-qualified times (`TZID=...`) — see roadmap.
 - Recurrence (`RRULE`, `EXDATE`).
 - `VALARM`, `VTIMEZONE`, and other component types.
 
