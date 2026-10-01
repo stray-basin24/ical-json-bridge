@@ -86,3 +86,13 @@ tsc
 
 (Requires a TypeScript compiler on your machine; this project has no
 dependencies of its own, so nothing to install for the library itself.)
+
+## Tests
+
+```
+npm test
+```
+
+This compiles and runs `src/index.test.ts` with Node. The tests use a small
+built-in runner rather than a test framework, so there is still nothing to
+install.
